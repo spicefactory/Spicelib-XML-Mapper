@@ -114,12 +114,20 @@ public class ChoiceRegistry {
 		for (var idKey:Object in choicesById) {
 			var id:String = idKey as String;
 			var idChoice:Choice = choices.getChoiceById(id);
-			mergeChoice(idChoice, Choice(choicesById[id]).getAllMappers());
+			var otherChoice:Choice = Choice(choicesById[id]);
+			var idMappers:Array = idChoice.getAllMappers();
+			var otherMappers:Array = otherChoice.getAllMappers();
+			mergeChoice(idChoice, otherMappers);
+			mergeChoice(otherChoice, idMappers);
 		}
 		for (var typeKey:Object in choicesByType) {
 			var type:Class = typeKey as Class;
 			var typeChoice:Choice = choices.getChoiceByType(type);
-			mergeChoice(typeChoice, Choice(choicesByType[type]).getAllMappers());
+			var otherTypeChoice:Choice = Choice(choicesByType[type]);
+			var typeMappers:Array = typeChoice.getAllMappers();
+			var otherTypeMappers:Array = otherChoice.getAllMappers();
+			mergeChoice(typeChoice, otherTypeMappers);
+			mergeChoice(otherTypeChoice, typeMappers);
 		}
 	}
 	
