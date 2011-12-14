@@ -35,7 +35,7 @@ import flash.utils.Dictionary;
  * Builder that creates PropertyMapper instances.
  * 
  * <p>The main entry point for most basic use cases covered by the builtin PropertyMapper implementation.
- * Use the various <code>mapXXX</code> methods to create a mapper that maps properties of a class
+ * Use the various <code>map*</code> methods to create a mapper that maps properties of a class
  * to XML attributes, child elements or text nodes.</p>
  * 
  * <p>This class is primarily intended for internal use. In most cases the most convenient way to create
@@ -431,9 +431,9 @@ public class PropertyMapperBuilder {
 	
 	/**
 	 * Builds the final mapper based on the instructions that were given through the various
-	 * mapXXX methods of this class. The returned mapper instance is lazy-initializing, so the real
+	 * map* methods of this class. The returned mapper instance is lazy-initializing, so the real
 	 * mapper does not get created until it is used for the first time through a call to <code>mapToObject</code>
-	 * or <code>mapToXml</code>. So calling some of the mapXXX methods of this builder will still modify the 
+	 * or <code>mapToXml</code>. So calling some of the map* methods of this builder will still modify the 
 	 * behaviour of the returned mapper. This mechanism makes it easier to build a nested structure of mappers
 	 * with circular references.
 	 * 
