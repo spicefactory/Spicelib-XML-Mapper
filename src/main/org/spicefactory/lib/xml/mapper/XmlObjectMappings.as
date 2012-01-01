@@ -252,13 +252,14 @@ public class XmlObjectMappings {
 	 */
 	internal function mergeInto (byType:Dictionary, mappers:Array, choices:ChoiceRegistry) : void {
 		if (!rootMapper) {
-			build();
+			processMappings();
 		}
 		for each (var mapper:XmlObjectMapper in mappersByType) {
 			byType[mapper.objectType.getClass()] = mapper;
 			mappers.push(mapper);
 		}
 		this.choices.mergeInto(choices);
+		this.choices.validate();
 	}
 
 	
@@ -269,6 +270,15 @@ public class XmlObjectMappings {
 	 * @return the mapper for the root element
  	 */
 	public function build () : XmlObjectMapper {
+		
+		processMappings();
+		choices.validate();
+		
+		return rootMapper;
+		
+	}
+	
+	private function processMappings () : void {
 		
 		if (!processed) {
 			
@@ -287,14 +297,12 @@ public class XmlObjectMappings {
 				builder.processMetadata(_defaultSimpleMappingType);
 			}
 			
-			choices.initialize(mappersByType);
+			choices.populateTypeChoices(mappersByType);
 
 			postProcess(mappers);
 			
 			processed = true;
 		}
-		
-		return rootMapper;
 		
 	}
 	

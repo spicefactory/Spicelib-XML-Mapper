@@ -62,30 +62,41 @@ public class ChoiceRegistry {
 
 	
 	/**
-	 * Initializes all existing choices, extracting the corresponding mappers for
+	 * Populates all existing type choices, extracting the corresponding mappers for
 	 * all existing choices which map to types and their subtypes.
-	 * Also validates all existing choices and throws an Error if one of them
-	 * is empty.
 	 * 
 	 * @param mappers the mappings to fill the choices with, the keys in the Dictionary are the
 	 * types (classes) of the mappings, the values are the actual mappers.
 	 */
-	public function initialize (mappers:Dictionary) : void {
-		var invalidTypes:Array = new Array();
-		var invalidIds:Array = new Array();
+	public function populateTypeChoices (mappers:Dictionary) : void {
+		
 		for (var key:Object in choicesByType) {
 			var type:Class = key as Class;
-			var valid:Boolean = false;
 			for each (var mapper:XmlObjectMapper in mappers) {
 				if (mapper.objectType.isType(type)) {
 					Choice(choicesByType[type]).addMapper(mapper);
-					valid = true;
 				}
 			}
-			if (!valid) {
+		}
+		
+	}
+	
+	/**
+	 * Validates all registered choices and throws an error
+	 * if any one of them does not contain any mappings.
+	 */
+	public function validate (): void {
+
+		var invalidTypes:Array = new Array();
+		for (var key:Object in choicesByType) {
+			var type:Class = key as Class;
+			var typeChoice:Choice = choicesByType[type] as Choice;
+			if (typeChoice.getAllMappers().length == 0) {
 				invalidTypes.push(getQualifiedClassName(type));
 			}
 		}
+
+		var invalidIds:Array = new Array();
 		for (var idKey:Object in choicesById) {
 			var id:String = idKey as String;
 			var choice:Choice = choicesById[id] as Choice;
@@ -93,6 +104,7 @@ public class ChoiceRegistry {
 				invalidIds.push(id);
 			}
 		}
+		
 		if (invalidTypes.length > 0 || invalidIds.length > 0) {
 			var msg:String = "One or more Choices do not contain any mappings ";
 			if (invalidTypes.length > 0) {
