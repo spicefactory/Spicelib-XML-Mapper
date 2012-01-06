@@ -15,6 +15,9 @@
  */
 
 package org.spicefactory.lib.xml.mapper {
+
+import org.spicefactory.lib.logging.LogContext;
+import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.xml.XmlObjectMapper;
 import org.spicefactory.lib.xml.XmlProcessorContext;
@@ -31,6 +34,9 @@ import flash.utils.Dictionary;
  */
 public class PropertyMapper extends AbstractXmlObjectMapper implements XmlObjectMapper {
 
+
+	private static var logger:Logger = LogContext.getLogger(PropertyMapper);
+	
 	
 	private var ignoreUnmappedAttributes:Boolean = false;
 	private var ignoreUnmappedChildren:Boolean = false;
@@ -117,7 +123,7 @@ public class PropertyMapper extends AbstractXmlObjectMapper implements XmlObject
 			}
 		}
 		catch (error:Error) {
-			trace(error.getStackTrace());
+			logger.error("Error mapping XML to object: {0}", error);
 			hasErrors = true;
 			context.addError(error);
 		}
