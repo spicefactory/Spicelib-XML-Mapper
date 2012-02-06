@@ -35,7 +35,7 @@ import flash.utils.Dictionary;
  * Builder that creates PropertyMapper instances.
  * 
  * <p>The main entry point for most basic use cases covered by the builtin PropertyMapper implementation.
- * Use the various <code>map*</code> methods to create a mapper that maps properties of a class
+ * Use the various <code>map</code> methods to create a mapper that maps properties of a class
  * to XML attributes, child elements or text nodes.</p>
  * 
  * <p>This class is primarily intended for internal use. In most cases the most convenient way to create
